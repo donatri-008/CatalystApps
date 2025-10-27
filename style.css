@@ -1040,7 +1040,6 @@ footer p {
 
 /* Quick Admin Access Styles */
 #copyright {
-    transition: all 0.3s ease;
     position: relative;
 }
 
@@ -1052,21 +1051,10 @@ footer p {
     width: 0;
     height: 2px;
     background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%);
-    transition: width 0.3s ease;
 }
 
 #copyright:hover::after {
     width: 100%;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.copyright-pulse {
-    animation: pulse 0.3s ease;
 }
 
 /* Admin Access Feedback */
@@ -1721,4 +1709,5 @@ select:focus {
     outline: 2px solid var(--primary-cyan);
     outline-offset: 2px;
 }
+
 
