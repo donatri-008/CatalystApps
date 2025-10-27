@@ -21,7 +21,6 @@
                 <a href="#pricelist">Pricelist</a>
                 <a href="#testimonials">Testimoni</a>
                 <a href="#contact">Contact</a>
-                <a href="admin.html" class="admin-link">Admin</a>
             </nav>
 
             <!-- Mobile Menu Button -->
@@ -57,9 +56,6 @@
             </a>
             <a href="#contact" onclick="closeMobileNav()">
                 <span>🚀</span> Contact
-            </a>
-            <a href="admin.html" onclick="closeMobileNav()">
-                <span>⚙️</span> Admin Panel
             </a>
         </div>
     </nav>
@@ -253,9 +249,18 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Catalyst Store. All Rights Reserved.</p>
+        <div class="footer-container">
+            <p>&copy; 2025 Catalyst Store. All Rights Reserved.</p>
+            <div class="footer-secret">
+                <!-- Tombol admin yang tersembunyi -->
+                <button class="secret-admin-btn" id="secretAdminBtn" title="Admin Panel">
+                    <span class="secret-icon">⚙️</span>
+                </button>
+            </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
+
