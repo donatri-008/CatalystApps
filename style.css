@@ -1038,63 +1038,6 @@ footer p {
     transition: all 0.3s ease;
 }
 
-/* Quick Admin Access Styles */
-#copyright {
-    position: relative;
-}
-
-#copyright::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%);
-}
-
-#copyright:hover::after {
-    width: 100%;
-}
-
-/* Admin Access Feedback */
-.admin-access-feedback {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%);
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    font-weight: 600;
-    z-index: 10000;
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
-    animation: adminAccessFade 1.5s ease-in-out;
-}
-
-@keyframes adminAccessFade {
-    0% { 
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
-    }
-    20% { 
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
-    }
-    40% { 
-        transform: translate(-50%, -50%) scale(1);
-    }
-    80% { 
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    100% { 
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9);
-    }
-}
-
 /* Empty State */
 .empty-state {
     text-align: center;
@@ -1709,5 +1652,6 @@ select:focus {
     outline: 2px solid var(--primary-cyan);
     outline-offset: 2px;
 }
+
 
 
