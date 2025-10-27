@@ -364,12 +364,13 @@ let testimonials = [
 
 exports.handler = async function(event, context) {
     const { httpMethod: method, path, queryStringParameters: query, body } = event;
-    const pathParts = path.split('/').filter(part => part);
+    
+    console.log('Database Function Called:', { method, path, query });
     
     // CORS headers
     const headers = {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Content-Type': 'application/json'
     };
@@ -384,25 +385,25 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        // Products endpoints
-        if (pathParts[2] === 'products') {
-            // GET /products
+        // Simple routing based on path
+        if (path.includes('/products')) {
+            // GET all products or by category
             if (method === 'GET') {
                 const category = query?.category;
-                let filteredProducts = products;
+                let resultProducts = products;
                 
                 if (category && category !== 'all') {
-                    filteredProducts = products.filter(p => p.category === category);
+                    resultProducts = products.filter(p => p.category === category);
                 }
                 
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify(filteredProducts)
+                    body: JSON.stringify(resultProducts)
                 };
             }
             
-            // POST /products
+            // POST new product
             if (method === 'POST') {
                 const newProduct = JSON.parse(body);
                 newProduct.id = Math.max(...products.map(p => p.id), 0) + 1;
@@ -415,53 +416,60 @@ exports.handler = async function(event, context) {
                 };
             }
             
-            // PUT /products/:id
-            if (method === 'PUT' && pathParts[3]) {
-                const productId = parseInt(pathParts[3]);
-                const updatedProduct = JSON.parse(body);
-                const index = products.findIndex(p => p.id === productId);
-                
-                if (index !== -1) {
-                    products[index] = { ...products[index], ...updatedProduct };
-                    return {
-                        statusCode: 200,
-                        headers,
-                        body: JSON.stringify(products[index])
-                    };
-                }
-                
-                return {
-                    statusCode: 404,
-                    headers,
-                    body: JSON.stringify({ error: 'Product not found' })
-                };
-            }
+            // Handle product ID in path
+            const pathParts = path.split('/');
+            const productId = parseInt(pathParts[pathParts.length - 1]);
             
-            // DELETE /products/:id
-            if (method === 'DELETE' && pathParts[3]) {
-                const productId = parseInt(pathParts[3]);
-                const index = products.findIndex(p => p.id === productId);
-                
-                if (index !== -1) {
-                    products.splice(index, 1);
+            if (!isNaN(productId)) {
+                // PUT update product
+                if (method === 'PUT') {
+                    const updatedProduct = JSON.parse(body);
+                    const index = products.findIndex(p => p.id === productId);
+                    
+                    if (index !== -1) {
+                        products[index] = { ...products[index], ...updatedProduct };
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify(products[index])
+                        };
+                    }
+                    
                     return {
-                        statusCode: 200,
+                        statusCode: 404,
                         headers,
-                        body: JSON.stringify({ message: 'Product deleted successfully' })
+                        body: JSON.stringify({ error: 'Product not found' })
                     };
                 }
                 
-                return {
-                    statusCode: 404,
-                    headers,
-                    body: JSON.stringify({ error: 'Product not found' })
-                };
+                // DELETE product
+                if (method === 'DELETE') {
+                    const index = products.findIndex(p => p.id === productId);
+                    
+                    if (index !== -1) {
+                        const deletedProduct = products.splice(index, 1)[0];
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify({ 
+                                message: 'Product deleted successfully',
+                                product: deletedProduct
+                            })
+                        };
+                    }
+                    
+                    return {
+                        statusCode: 404,
+                        headers,
+                        body: JSON.stringify({ error: 'Product not found' })
+                    };
+                }
             }
         }
         
         // Testimonials endpoints
-        if (pathParts[2] === 'testimonials') {
-            // GET /testimonials
+        if (path.includes('/testimonials')) {
+            // GET all testimonials
             if (method === 'GET') {
                 return {
                     statusCode: 200,
@@ -470,7 +478,7 @@ exports.handler = async function(event, context) {
                 };
             }
             
-            // POST /testimonials
+            // POST new testimonial
             if (method === 'POST') {
                 const newTestimonial = JSON.parse(body);
                 newTestimonial.id = Math.max(...testimonials.map(t => t.id), 0) + 1;
@@ -483,30 +491,38 @@ exports.handler = async function(event, context) {
                 };
             }
             
-            // DELETE /testimonials/:id
-            if (method === 'DELETE' && pathParts[3]) {
-                const testimonialId = parseInt(pathParts[3]);
-                const index = testimonials.findIndex(t => t.id === testimonialId);
-                
-                if (index !== -1) {
-                    testimonials.splice(index, 1);
+            // Handle testimonial ID in path
+            const pathParts = path.split('/');
+            const testimonialId = parseInt(pathParts[pathParts.length - 1]);
+            
+            if (!isNaN(testimonialId)) {
+                // DELETE testimonial
+                if (method === 'DELETE') {
+                    const index = testimonials.findIndex(t => t.id === testimonialId);
+                    
+                    if (index !== -1) {
+                        const deletedTestimonial = testimonials.splice(index, 1)[0];
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify({ 
+                                message: 'Testimonial deleted successfully',
+                                testimonial: deletedTestimonial
+                            })
+                        };
+                    }
+                    
                     return {
-                        statusCode: 200,
+                        statusCode: 404,
                         headers,
-                        body: JSON.stringify({ message: 'Testimonial deleted successfully' })
+                        body: JSON.stringify({ error: 'Testimonial not found' })
                     };
                 }
-                
-                return {
-                    statusCode: 404,
-                    headers,
-                    body: JSON.stringify({ error: 'Testimonial not found' })
-                };
             }
         }
         
         // Stats endpoint
-        if (pathParts[2] === 'stats') {
+        if (path.includes('/stats')) {
             if (method === 'GET') {
                 const stats = {
                     totalProducts: products.length,
@@ -525,10 +541,14 @@ exports.handler = async function(event, context) {
             }
         }
         
+        // Default response for unknown endpoints
         return {
             statusCode: 404,
             headers,
-            body: JSON.stringify({ error: 'Endpoint not found' })
+            body: JSON.stringify({ 
+                error: 'Endpoint not found',
+                availableEndpoints: ['/products', '/testimonials', '/stats']
+            })
         };
         
     } catch (error) {
@@ -536,7 +556,10 @@ exports.handler = async function(event, context) {
         return {
             statusCode: 500,
             headers,
-            body: JSON.stringify({ error: 'Internal server error' })
+            body: JSON.stringify({ 
+                error: 'Internal server error',
+                message: error.message 
+            })
         };
     }
 };
