@@ -21,6 +21,7 @@
                 <a href="#pricelist">Pricelist</a>
                 <a href="#testimonials">Testimoni</a>
                 <a href="#contact">Contact</a>
+                <a href="admin.html" class="admin-link">Admin</a>
             </nav>
 
             <!-- Mobile Menu Button -->
@@ -57,6 +58,9 @@
             <a href="#contact" onclick="closeMobileNav()">
                 <span>🚀</span> Contact
             </a>
+            <a href="admin.html" onclick="closeMobileNav()">
+                <span>⚙️</span> Admin Panel
+            </a>
         </div>
     </nav>
 
@@ -87,29 +91,29 @@
 
             <!-- Streaming Pricelist -->
             <div id="streaming" class="category-content active">
-                <div class="pricelist-grid">
-                    <!-- Content akan diisi oleh JavaScript -->
+                <div class="pricelist-grid" id="streaming-grid">
+                    <!-- Content akan diisi oleh JavaScript dari database -->
                 </div>
             </div>
 
             <!-- Desain & Editing Pricelist -->
             <div id="desain" class="category-content">
-                <div class="pricelist-grid">
-                    <!-- Content akan diisi oleh JavaScript -->
+                <div class="pricelist-grid" id="desain-grid">
+                    <!-- Content akan diisi oleh JavaScript dari database -->
                 </div>
             </div>
 
             <!-- AI Tools Pricelist -->
             <div id="ai" class="category-content">
-                <div class="pricelist-grid">
-                    <!-- Content akan diisi oleh JavaScript -->
+                <div class="pricelist-grid" id="ai-grid">
+                    <!-- Content akan diisi oleh JavaScript dari database -->
                 </div>
             </div>
 
             <!-- Lainnya Pricelist -->
             <div id="lainnya" class="category-content">
-                <div class="pricelist-grid">
-                    <!-- Content akan diisi oleh JavaScript -->
+                <div class="pricelist-grid" id="lainnya-grid">
+                    <!-- Content akan diisi oleh JavaScript dari database -->
                 </div>
             </div>
         </div>
@@ -129,7 +133,7 @@
             
             <div class="slider-wrapper">
                 <div class="testimonials-slider" id="testimonials-slider">
-                    <!-- Content akan diisi oleh JavaScript -->
+                    <!-- Content akan diisi oleh JavaScript dari database -->
                 </div>
             </div>
             
@@ -169,38 +173,7 @@
                     <label for="app-selection">Aplikasi yang Diinginkan *</label>
                     <select id="app-selection" name="app-selection" required>
                         <option value="">Pilih aplikasi...</option>
-                        <optgroup label="Streaming">
-                            <option value="Netflix Premium">Netflix Premium</option>
-                            <option value="Spotify Premium">Spotify Premium</option>
-                            <option value="YouTube Premium">YouTube Premium</option>
-                            <option value="Disney+">Disney+</option>
-                            <option value="Viu Premium">Viu Premium</option>
-                            <option value="Vidio">Vidio</option>
-                            <option value="Loklok">Loklok</option>
-                            <option value="Bstation">Bstation</option>
-                            <option value="Prime Video">Prime Video</option>
-                            <option value="Iqiyi">Iqiyi</option>
-                            <option value="Vision+">Vision+</option>
-                            <option value="Dramabox">Dramabox</option>
-                            <option value="DrakorID">DrakorID</option>
-                        </optgroup>
-                        <optgroup label="Desain & Kreatif">
-                            <option value="Canva Pro">Canva Pro</option>
-                            <option value="Alight Motion">Alight Motion</option>
-                            <option value="PicsArt Premium">PicsArt Premium</option>
-                            <option value="CapCut Pro">CapCut Pro</option>
-                        </optgroup>
-                        <optgroup label="AI & Produktivitas">
-                            <option value="ChatGPT Plus">ChatGPT Plus</option>
-                            <option value="Gemini">Gemini</option>
-                            <option value="Perplexity">Perplexity</option>
-                        </optgroup>
-                        <optgroup label="Lainnya">
-                            <option value="Quillbot">Quillbot</option>
-                            <option value="Scribd">Scribd</option>
-                            <option value="Grammarly">Grammarly</option>
-                            <option value="GetContact">GetContact</option>
-                        </optgroup>
+                        <!-- Options akan diisi oleh JavaScript dari database -->
                     </select>
                 </div>
                 
