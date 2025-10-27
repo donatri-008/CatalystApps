@@ -1,336 +1,5 @@
-// Data Pricelist Lengkap
-const pricelistData = {
-    streaming: {
-        "Netflix Premium": [
-            { name: "1P1U - 1 Bulan", price: "Rp 32,000" },
-            { name: "1P1U - 2 Bulan", price: "Rp 61,000" },
-            { name: "1P2U - 1 Bulan", price: "Rp 18,000" },
-            { name: "SEMI PRIVATE - 1 Bulan", price: "Rp 35,000" },
-            { name: "SEMI PRIVATE - 2 Bulan", price: "Rp 73,000" }
-        ],
-        "YouTube Premium": [
-            { name: "INDPLAN - 1 Bulan", price: "Rp 15,000" },
-            { name: "INDPLAN - 3 Bulan", price: "Rp 38,000" },
-            { name: "FAMPLAN - 1 Bulan", price: "Rp 10,000" },
-            { name: "FAMPLAN - 2 Bulan", price: "Rp 15,000" },
-            { name: "MIXPLAN - 2 Bulan", price: "Rp 20,000" },
-            { name: "MIXPLAN - 3 Bulan", price: "Rp 24,000" },
-            { name: "MIXPLAN - 6 Bulan", price: "Rp 38,000" }
-        ],
-        "Disney+": [
-            { name: "SHARING - 1 Hari", price: "Rp 5,000" },
-            { name: "SHARING - 3 Hari", price: "Rp 10,000" },
-            { name: "SHARING - 7 Hari", price: "Rp 15,000" },
-            { name: "SHARING - 14 Hari", price: "Rp 18,000" },
-            { name: "SHARING - 1 Bulan", price: "Rp 30,000" },
-            { name: "SHARING - 2 Bulan", price: "Rp 59,000" },
-            { name: "SHARING - 6 Bulan", price: "Rp 97,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 150,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 75,000" }
-        ],
-        "Spotify": [
-            { name: "INDPLAN - 1 Bulan", price: "Rp 16,000" },
-            { name: "FAMPLAN - 1 Bulan", price: "Rp 22,000" },
-            { name: "FAMPLAN - 2 Bulan", price: "Rp 35,000" },
-            { name: "STUDENT - 1 Bulan", price: "Rp 25,000" }
-        ],
-        "WeTV": [
-            { name: "SHARING 6U - 1 Bulan", price: "Rp 13,000" },
-            { name: "SHARING 6U - 3 Bulan", price: "Rp 20,000" },
-            { name: "SHARING 8U - 1 Bulan", price: "Rp 12,000" },
-            { name: "SHARING 8U - 3 Bulan", price: "Rp 16,000" },
-            { name: "SHARING 8U - 6 Bulan", price: "Rp 22,000" },
-            { name: "SHARING 8U - 1 Tahun", price: "Rp 30,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 38,000" }
-        ],
-        "Viu": [
-            { name: "SHARING - 1 Bulan", price: "Rp 5,000" },
-            { name: "SHARING - 3 Bulan", price: "Rp 8,000" },
-            { name: "SHARING - 9 Bulan", price: "Rp 11,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 16,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 8,000" },
-            { name: "PRIVATE - 3 Bulan", price: "Rp 18,000" },
-            { name: "PRIVATE - 9 Bulan", price: "Rp 24,000" },
-            { name: "PRIVATE - 1 Tahun", price: "Rp 30,000" }
-        ],
-        "Vision+": [
-            { name: "PRIVATE PREMIUM - 1 Bulan", price: "Rp 18,000" },
-            { name: "PRIVATE PREMIUM SPORT - 1 Bulan", price: "Rp 31,000" }
-        ],
-        "LokLok": [
-            { name: "SHARING BASIC (NO TV) - 1 Bulan (3U)", price: "Rp 23,000" },
-            { name: "SHARING BASIC (NO TV) - 1 Bulan (8U)", price: "Rp 20,000" },
-            { name: "SHARING STANDART (BISA TV) - 1 Bulan (4U)", price: "Rp 28,000" },
-            { name: "SHARING STANDART (BISA TV) - 1 Bulan (6U)", price: "Rp 23,000" },
-            { name: "PRIVATE - 1 Bulan (basic)", price: "Rp 55,000" },
-            { name: "PRIVATE - 1 Bulan (standard)", price: "Rp 76,000" }
-        ],
-        "Vidio Platinum": [
-            { name: "Private All Device - 1 Bulan", price: "Rp 75,000" },
-            { name: "Sharing Mobile Only - 1 Bulan", price: "Rp 20,000" },
-            { name: "Private Mobile Only - 7 Hari", price: "Rp 22,000" },
-            { name: "Private Mobile Only - 1 Bulan", price: "Rp 30,000" },
-            { name: "Private TV Only - 1 Tahun", price: "Rp 45,000" }
-        ],
-        "Drakor ID": [
-            { name: "SHARING - 1 Bulan", price: "Rp 10,000" },
-            { name: "SHARING - 3 Bulan", price: "Rp 14,000" },
-            { name: "SHARING - 6 Bulan", price: "Rp 16,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 21,000" }
-        ],
-        "Dramabox": [
-            { name: "SHARING - 1 Bulan", price: "Rp 18,000" },
-            { name: "SHARING - 3 Bulan", price: "Rp 22,000" },
-            { name: "SHARING - 6 Bulan", price: "Rp 29,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 34,000" }
-        ],
-        "Bstation": [
-            { name: "SHARING - 1 Bulan", price: "Rp 12,000" },
-            { name: "SHARING - 2 Bulan", price: "Rp 16,000" },
-            { name: "SHARING - 3 Bulan", price: "Rp 20,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 35,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 52,000" }
-        ]
-    },
-    desain: {
-        "Canva Pro": [
-            { name: "MEMBER - 3 Hari", price: "Rp 2,000" },
-            { name: "MEMBER - 7 Hari", price: "Rp 4,000" },
-            { name: "MEMBER - 14 Hari", price: "Rp 5,000" },
-            { name: "MEMBER - 1 Bulan", price: "Rp 7,000" },
-            { name: "MEMBER - 2 Bulan", price: "Rp 11,000" },
-            { name: "MEMBER - 3 Bulan", price: "Rp 14,000" },
-            { name: "MEMBER - 1 Tahun", price: "Rp 25,000" },
-            { name: "MEMBER - Designer", price: "+ Rp 1,500" },
-            { name: "EDUCATION - Lifetime", price: "Rp 35,000" },
-            { name: "EDUCATION - Designer", price: "+ Rp 1,500" }
-        ],
-        "PicsArt": [
-            { name: "SHARING - 1 Bulan", price: "Rp 8,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 18,000" }
-        ],
-        "CapCut": [
-            { name: "SHARING - 7 Hari", price: "Rp 10,000" },
-            { name: "SHARING - 1 Bulan", price: "Rp 14,000" },
-            { name: "PRIVATE - 7 Hari", price: "Rp 14,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 35,000" },
-            { name: "PRIVATE - 6 Bulan", price: "Rp 170,000" }
-        ],
-        "Alight Motion": [
-            { name: "SHARING 2U - 1 Tahun", price: "Rp 15,000" },
-            { name: "PRIVATE - 1 Tahun", price: "Rp 25,000" }
-        ]
-    },
-    ai: {
-        "ChatGPT Plus": [
-            { name: "SHARING - 7 Hari", price: "Rp 22,000" },
-            { name: "SHARING - 1 Bulan (8u)", price: "Rp 34,000" },
-            { name: "SHARING - 1 Bulan (10u)", price: "Rp 29,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 100,000" }
-        ],
-        "Perplexity": [
-            { name: "SHARING 5U - 1 Bulan", price: "Rp 18,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 25,000" }
-        ],
-        "Gemini": [
-            { name: "PRIVATE - 1 Bulan", price: "Rp 18,000" },
-            { name: "PRIVATE - 1 Tahun", price: "Rp 30,000" }
-        ]
-    },
-    lainnya: {
-        "QuillBot": [
-            { name: "1 Bulan", price: "Rp 15,000" },
-            { name: "3 Bulan", price: "Rp 20,000" },
-            { name: "6 Bulan", price: "Rp 32,000" },
-            { name: "1 Tahun", price: "Rp 69,000" }
-        ],
-        "Scribd": [
-            { name: "SHARING - 1 Bulan", price: "Rp 15,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 25,000" }
-        ],
-        "Grammarly": [
-            { name: "SHARING - 1 Bulan", price: "Rp 15,000" },
-            { name: "SHARING - 1 Tahun", price: "Rp 31,000" },
-            { name: "PRIVATE - 1 Bulan", price: "Rp 40,000" }
-        ],
-        "Get Contact": [
-            { name: "1 Bulan", price: "Rp 15,000" }
-        ]
-    }
-};
-
-// Data aplikasi untuk icon dan deskripsi - SUDAH DIPERBAIKI DENGAN 4 APLIKASI BARU
-const appsData = {
-    streaming: [
-        {
-            name: "Netflix Premium",
-            icon: "🎬",
-            description: "Akses tak terbatas ke semua film dan serial Netflix tanpa iklan"
-        },
-        {
-            name: "YouTube Premium",
-            icon: "📺",
-            description: "Tonton YouTube tanpa iklan, download video, dan akses YouTube Music"
-        },
-        {
-            name: "Spotify",
-            icon: "🎵",
-            description: "Nikmati musik tanpa iklan, download offline, dan kualitas audio terbaik"
-        },
-        {
-            name: "Disney+",
-            icon: "🏰",
-            description: "Koleksi lengkap film Disney, Marvel, Star Wars, dan National Geographic"
-        },
-        {
-            name: "WeTV",
-            icon: "📱",
-            description: "Platform streaming drama dan film Asia terpopuler"
-        },
-        {
-            name: "Viu",
-            icon: "🎭",
-            description: "Nonton drama Korea dan Asia tanpa iklan dengan subtitle lengkap"
-        },
-        {
-            name: "Vision+",
-            icon: "🎞️",
-            description: "Layanan streaming lokal dengan konten eksklusif Indonesia"
-        },
-        {
-            name: "LokLok",
-            icon: "📲",
-            description: "Aplikasi wallpaper hidup dengan konten eksklusif"
-        },
-        {
-            name: "Vidio Platinum",
-            icon: "🎪",
-            description: "Streaming lokal dengan konten TV, film, dan olahraga Indonesia"
-        },
-        {
-            name: "Drakor ID",
-            icon: "🎎",
-            description: "Khusus penggemar drama Korea dengan subtitle Indonesia"
-        },
-        {
-            name: "Dramabox",
-            icon: "🎬",
-            description: "Platform streaming drama pendek interaktif"
-        },
-        {
-            name: "Bstation",
-            icon: "📺",
-            description: "Platform streaming anime dan konten Asia"
-        }
-    ],
-    desain: [
-        {
-            name: "Canva Pro",
-            icon: "✏️",
-            description: "Desain grafis premium dengan template eksklusif dan aset tanpa batas"
-        },
-        {
-            name: "PicsArt",
-            icon: "🖼️",
-            description: "Editor foto dan video lengkap dengan efek dan filter premium"
-        },
-        {
-            name: "CapCut",
-            icon: "🎬",
-            description: "Editor video profesional dengan efek khusus dan tools canggih"
-        },
-        {
-            name: "Alight Motion",
-            icon: "⚡",
-            description: "Editor video profesional dengan efek visual dan animasi canggih"
-        }
-    ],
-    ai: [
-        {
-            name: "ChatGPT Plus",
-            icon: "🤖",
-            description: "Akses ChatGPT dengan prioritas, fitur terbaru, dan respons lebih cepat"
-        },
-        {
-            name: "Perplexity",
-            icon: "🔍",
-            description: "AI pencarian dengan sumber terpercaya dan kemampuan analisis mendalam"
-        },
-        {
-            name: "Gemini",
-            icon: "✨",
-            description: "AI dari Google dengan kemampuan multimodal dan analisis canggih"
-        }
-    ],
-    lainnya: [
-        {
-            name: "QuillBot",
-            icon: "✍️",
-            description: "Alat parafrase dan penulisan AI untuk meningkatkan kualitas teks"
-        },
-        {
-            name: "Scribd",
-            icon: "📚",
-            description: "Perpustakaan digital dengan buku, audiobook, dan dokumen premium"
-        },
-        {
-            name: "Grammarly",
-            icon: "📝",
-            description: "Asisten penulisan AI untuk grammar dan spelling yang lebih baik"
-        },
-        {
-            name: "Get Contact",
-            icon: "📞",
-            description: "Identifikasi penelepon dan manajemen kontak yang cerdas"
-        }
-    ]
-};
-
-// Data testimonial/screenshots
-const testimonials = [
-    {
-        id: 1,
-        productName: "Dramabox 1 Bulan",
-        screenshot: "Foto/testi 1.jpg"
-    },
-    {
-        id: 2,
-        productName: "Iqiyi 1 Tahun", 
-        screenshot: "Foto/testi 2.jpg"
-    },
-    {
-        id: 3,
-        productName: "Vision+ 1 Bulan",
-        screenshot: "Foto/testi 3.jpg"
-    },
-    {
-        id: 4,
-        productName: "ChatGPT Plus 1 Bulan",
-        screenshot: "Foto/testi 4.jpg"
-    },
-    {
-        id: 5,
-        productName: "Canva 7 Hari",
-        screenshot: "Foto/testi 5.jpg"
-    },
-    {
-        id: 6,
-        productName: "Canva 1 Tahun",
-        screenshot: "Foto/testi 6.jpg"
-    },
-    {
-        id: 7,
-        productName: "Spotify 1 Bulan",
-        screenshot: "Foto/testi 7.jpg"
-    },
-    {
-        id: 8,
-        productName: "Viu 1 Tahun",
-        screenshot: "Foto/testi 8.jpg"
-    }
-];
-
-// WhatsApp Configuration
+// Konfigurasi
+const API_BASE = '/.netlify/functions/database';
 const WHATSAPP_CONFIG = {
     phoneNumber: '6287767796053',
     autoSend: true,
@@ -357,11 +26,119 @@ _Silahkan berikan info harga dan cara pembayaran untuk pesanan di atas. Terima k
     }
 };
 
-// Variabel global untuk slider
+// Data sementara (fallback jika database offline)
+let pricelistData = {
+    streaming: {},
+    desain: {},
+    ai: {},
+    lainnya: {}
+};
+
+let testimonials = [];
 let currentSlide = 0;
 let autoSlideInterval;
 let isAnimating = false;
 let slidesPerView = 3;
+
+// ================================
+// DATABASE FUNCTIONS
+// ================================
+
+async function loadDataFromDatabase() {
+    try {
+        console.log('Loading data from database...');
+        
+        // Load products
+        const productsResponse = await fetch(`${API_BASE}/products`);
+        if (!productsResponse.ok) throw new Error('Failed to fetch products');
+        const products = await productsResponse.json();
+        
+        // Reset pricelistData
+        pricelistData = { streaming: {}, desain: {}, ai: {}, lainnya: {} };
+        
+        // Populate pricelistData from database
+        products.forEach(product => {
+            if (pricelistData[product.category]) {
+                pricelistData[product.category][product.name] = product.plans;
+            }
+        });
+        
+        // Load testimonials
+        const testimonialsResponse = await fetch(`${API_BASE}/testimonials`);
+        if (!testimonialsResponse.ok) throw new Error('Failed to fetch testimonials');
+        const dbTestimonials = await testimonialsResponse.json();
+        
+        // Update testimonials array
+        testimonials = dbTestimonials;
+        
+        console.log('Data loaded successfully:', {
+            products: products.length,
+            testimonials: testimonials.length
+        });
+        
+        // Update UI components
+        updatePricelistUI();
+        updateTestimonialsUI();
+        updateAppSelection();
+        
+    } catch (error) {
+        console.error('Error loading data from database:', error);
+        // Fallback to static data or show error message
+        showNotification('Menggunakan data offline', 'info');
+    }
+}
+
+function updatePricelistUI() {
+    const activeTab = document.querySelector('.category-tab.active');
+    if (activeTab) {
+        const activeCategory = activeTab.getAttribute('data-category');
+        renderPricelist(activeCategory);
+    }
+}
+
+function updateTestimonialsUI() {
+    if (document.getElementById('testimonials-slider')) {
+        renderTestimonialSlider();
+    }
+}
+
+function updateAppSelection() {
+    const appSelect = document.getElementById('app-selection');
+    if (!appSelect) return;
+    
+    // Clear existing options except the first one
+    appSelect.innerHTML = '<option value="">Pilih aplikasi...</option>';
+    
+    // Group products by category
+    const categories = {
+        streaming: document.createElement('optgroup'),
+        desain: document.createElement('optgroup'),
+        ai: document.createElement('optgroup'),
+        lainnya: document.createElement('optgroup')
+    };
+    
+    categories.streaming.label = 'Streaming';
+    categories.desain.label = 'Desain & Kreatif';
+    categories.ai.label = 'AI & Produktivitas';
+    categories.lainnya.label = 'Lainnya';
+    
+    // Add products to respective categories
+    Object.keys(pricelistData).forEach(category => {
+        Object.keys(pricelistData[category]).forEach(productName => {
+            const option = document.createElement('option');
+            option.value = productName;
+            option.textContent = productName;
+            categories[category].appendChild(option);
+        });
+    });
+    
+    // Append non-empty categories to select
+    Object.values(categories).forEach(optgroup => {
+        if (optgroup.children.length > 0) {
+            appSelect.appendChild(optgroup);
+        }
+    });
+}
 
 // ================================
 // MOBILE NAVIGATION FUNCTIONS
@@ -431,11 +208,21 @@ function renderPricelist(category) {
     container.innerHTML = '';
 
     const apps = pricelistData[category] || {};
+    const appNames = Object.keys(apps);
     
-    Object.keys(apps).forEach((appName, index) => {
-        const appData = appsData[category]?.find(app => app.name === appName) || 
-                       { icon: "📱", description: "Layanan premium terbaik" };
-        
+    if (appNames.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                    <p>Tidak ada produk untuk kategori ini</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    appNames.forEach((appName, index) => {
         const card = document.createElement('div');
         card.className = 'pricelist-card';
         card.style.animationDelay = `${index * 0.1}s`;
@@ -465,7 +252,7 @@ function renderPricelist(category) {
             ${hasBestValue ? '<div class="popular-badge">🔥 POPULAR</div>' : ''}
             
             <div class="app-header">
-                <div class="app-icon">${appData.icon}</div>
+                <div class="app-icon">📱</div>
                 <h3 class="app-name">${appName}</h3>
             </div>
             
@@ -514,6 +301,7 @@ function initPricelist() {
         });
     });
     
+    // Render initial category
     const firstTab = document.querySelector('.category-tab.active');
     if (firstTab) {
         const firstCategory = firstTab.getAttribute('data-category');
@@ -532,15 +320,6 @@ function getSlidesPerView() {
     return 3;
 }
 
-function loadImage(src) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-    });
-}
-
 function renderTestimonialSlider() {
     const slider = document.getElementById('testimonials-slider');
     const dotsContainer = document.getElementById('slider-dots');
@@ -551,6 +330,18 @@ function renderTestimonialSlider() {
     dotsContainer.innerHTML = '';
 
     slidesPerView = getSlidesPerView();
+    
+    if (testimonials.length === 0) {
+        slider.innerHTML = `
+            <div class="empty-state">
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                    <p>Belum ada testimoni</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
     
     testimonials.forEach((testimonial, index) => {
         const slide = document.createElement('div');
@@ -564,6 +355,7 @@ function renderTestimonialSlider() {
                     loading="lazy"
                     width="250"
                     height="444"
+                    onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjQ0NCIgdmlld0JveD0iMCAwIDI1MCA0NDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyNTAiIGhlaWdodD0iNDQ0IiBmaWxsPSIjMEYxRjM1Ii8+CjxwYXRoIGQ9Ik0xMjUgODBDMTM2LjUgODAgMTQ1IDg4LjUgMTQ1IDEwMEMxNDUgMTExLjUgMTM2LjUgMTIwIDEyNSAxMjBDMTEzLjUgMTIwIDEwNSAxMTEuNSAxMDUgMTAwQzEwNSA4OC41IDExMy41IDgwIDEyNSA4MFoiIGZpbGw9IiMwMEQ0RkYiLz4KPHBhdGggZD0iTTEwMCAxNjBIMTUwVjE0MEgxMDBWMTYwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjciLz4KPHBhdGggZD0iTTEwMCAxOTBIMTUwVjE3MEgxMDBWMTkwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjUiLz4KPHBhdGggZD0iTTEwMCAyMjBIMTUwVjIwMEgxMDBWMjIwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+Cg=='"
                 />
             </div>
             <div class="product-label">
@@ -574,8 +366,6 @@ function renderTestimonialSlider() {
     });
 
     const totalSlides = testimonials.length;
-    // Hitung total dots: untuk desktop (3 slide), kita perlu 3 dots (0-2, 3-5, 6-7)
-    // Untuk mobile (1 slide), kita perlu 8 dots
     const totalDots = Math.ceil(totalSlides / slidesPerView);
     
     for (let i = 0; i < totalDots; i++) {
@@ -586,51 +376,24 @@ function renderTestimonialSlider() {
         dotsContainer.appendChild(dot);
     }
 
-    preloadImages();
-    currentSlide = 0; // Reset ke slide pertama
+    currentSlide = 0;
     updateSlider();
-}
-
-function preloadImages() {
-    testimonials.forEach(testimonial => {
-        loadImage(testimonial.screenshot)
-            .then(img => {
-                const imageElements = document.querySelectorAll(`img[src="${testimonial.screenshot}"]`);
-                imageElements.forEach(imgEl => {
-                    imgEl.classList.add('loaded');
-                });
-            })
-            .catch(error => {
-                console.warn('Gagal memuat gambar:', testimonial.screenshot, error);
-                const imageElements = document.querySelectorAll(`img[src="${testimonial.screenshot}"]`);
-                imageElements.forEach(imgEl => {
-                    imgEl.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjQ0NCIgdmlld0JveD0iMCAwIDI1MCA0NDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyNTAiIGhlaWdodD0iNDQ0IiBmaWxsPSIjMEYxRjM1Ii8+CjxwYXRoIGQ9Ik0xMjUgODBDMTM2LjUgODAgMTQ1IDg4LjUgMTQ1IDEwMEMxNDUgMTExLjUgMTM2LjUgMTIwIDEyNSAxMjBDMTEzLjUgMTIwIDEwNSAxMTEuNSAxMDUgMTAwQzEwNSA4OC41IDExMy41IDgwIDEyNSA4MFoiIGZpbGw9IiMwMEQ0RkYiLz4KPHBhdGggZD0iTTEwMCAxNjBIMTUwVjE0MEgxMDBWMTYwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjciLz4KPHBhdGggZD0iTTEwMCAxOTBIMTUwVjE3MEgxMDBWMTkwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjUiLz4KPHBhdGggZD0iTTEwMCAyMjBIMTUwVjIwMEgxMDBWMjIwWiIgZmlsbD0iI0Q5NDZFRiIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+Cg==';
-                    imgEl.alt = `Placeholder untuk ${testimonial.productName}`;
-                    imgEl.classList.add('loaded');
-                });
-            });
-    });
 }
 
 function updateSlider() {
     const slider = document.getElementById('testimonials-slider');
     const dots = document.querySelectorAll('.slider-dot');
     
-    if (!slider) return;
+    if (!slider || testimonials.length === 0) return;
     
     const totalSlides = testimonials.length;
     const maxSlideIndex = Math.ceil(totalSlides / slidesPerView) - 1;
     
-    // Batasi currentSlide agar tidak melebihi maxSlideIndex
     if (currentSlide > maxSlideIndex) {
         currentSlide = maxSlideIndex;
     }
     
-    // Perhitungan translateX yang benar:
-    // Setiap kali next, geser sebesar (100% / slidesPerView) * slidesPerView = 100%
-    // Tapi kita perlu memperhitungkan gap juga
     const translatePercent = currentSlide * 100;
-    
     slider.style.transform = `translateX(-${translatePercent}%)`;
     
     dots.forEach((dot, index) => {
@@ -646,12 +409,12 @@ function updateButtonStates() {
     const totalSlides = testimonials.length;
     const totalGroups = Math.ceil(totalSlides / slidesPerView);
     
-    if (prevBtn) prevBtn.disabled = currentSlide === 0;
-    if (nextBtn) nextBtn.disabled = currentSlide === totalGroups - 1;
+    if (prevBtn) prevBtn.disabled = currentSlide === 0 || testimonials.length === 0;
+    if (nextBtn) nextBtn.disabled = currentSlide === totalGroups - 1 || testimonials.length === 0;
 }
 
 function goToSlide(slideIndex) {
-    if (isAnimating) return;
+    if (isAnimating || testimonials.length === 0) return;
     
     isAnimating = true;
     currentSlide = slideIndex;
@@ -664,38 +427,38 @@ function goToSlide(slideIndex) {
 }
 
 function nextSlide() {
-    if (isAnimating) return;
+    if (isAnimating || testimonials.length === 0) return;
     
     const totalSlides = testimonials.length;
     const totalGroups = Math.ceil(totalSlides / slidesPerView);
     
     if (currentSlide < totalGroups - 1) {
         currentSlide++;
-        updateSlider();
     } else {
         currentSlide = 0;
-        updateSlider();
     }
+    updateSlider();
     resetAutoSlide();
 }
 
 function prevSlide() {
-    if (isAnimating) return;
+    if (isAnimating || testimonials.length === 0) return;
     
     const totalSlides = testimonials.length;
     const totalGroups = Math.ceil(totalSlides / slidesPerView);
     
     if (currentSlide > 0) {
         currentSlide--;
-        updateSlider();
     } else {
         currentSlide = totalGroups - 1;
-        updateSlider();
     }
+    updateSlider();
     resetAutoSlide();
 }
 
 function startAutoSlide() {
+    if (testimonials.length === 0) return;
+    
     autoSlideInterval = setInterval(() => {
         if (!isAnimating) {
             nextSlide();
@@ -916,17 +679,20 @@ function sendToWhatsApp(orderData) {
 }
 
 function showSuccessMessage(orderData) {
-    const successMessage = document.getElementById('successMessage');
-    if (successMessage) {
-        successMessage.classList.add('show');
-    }
-}
-
-function hideSuccessMessage() {
-    const successMessage = document.getElementById('successMessage');
-    if (successMessage) {
-        successMessage.classList.remove('show');
-    }
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success-message show';
+    successMessage.innerHTML = `
+        <div class="success-icon">✅</div>
+        <div class="success-title">Pesanan Terkirim!</div>
+        <div class="success-text">
+            Pesanan Anda untuk <strong>${orderData.app}</strong> telah dikirim ke WhatsApp.<br>
+            Tim support akan segera merespons pesanan Anda.
+        </div>
+        <button class="continue-button" onclick="this.parentElement.remove()">Lanjutkan Belanja</button>
+    `;
+    
+    const contactSection = document.querySelector('.contact-section');
+    contactSection.insertBefore(successMessage, contactSection.firstChild);
 }
 
 function resetForm() {
@@ -946,45 +712,151 @@ function quickOrder(appName) {
     closeMobileNav();
     scrollToContact();
     
-    const buttons = document.querySelectorAll('.order-button');
-    buttons.forEach(btn => {
-        if (btn.textContent.includes(appName)) {
-            btn.classList.add('loading');
-            btn.innerHTML = '<span class="button-icon">⏳</span>Membuka Form...';
-            
-            setTimeout(() => {
-                btn.classList.remove('loading');
-                btn.innerHTML = '<span class="button-icon">🛒</span>Pesan Sekarang';
-            }, 2000);
-        }
-    });
-    
     setTimeout(() => {
         const appSelect = document.getElementById('app-selection');
         if (appSelect) {
             appSelect.value = appName;
             
-            const options = appSelect.options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value === appName) {
-                    options[i].style.background = 'rgba(0, 212, 255, 0.1)';
-                    setTimeout(() => {
-                        options[i].style.background = '';
-                    }, 3000);
-                }
-            }
-            
-            const durationSelect = document.getElementById('duration');
-            if (durationSelect) {
-                durationSelect.focus();
-                durationSelect.style.borderColor = 'var(--primary-cyan)';
-                setTimeout(() => {
-                    durationSelect.style.borderColor = '';
-                }, 2000);
-            }
+            // Highlight the selected option
+            appSelect.style.borderColor = 'var(--primary-cyan)';
+            appSelect.style.boxShadow = '0 0 20px rgba(0, 212, 255, 0.3)';
+            setTimeout(() => {
+                appSelect.style.borderColor = '';
+                appSelect.style.boxShadow = '';
+            }, 2000);
         }
     }, 600);
 }
+
+// ================================
+// NOTIFICATION SYSTEM
+// ================================
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        z-index: 10000;
+        max-width: 300px;
+        animation: slideIn 0.3s ease;
+        font-weight: 500;
+    `;
+    
+    const colors = {
+        success: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+        error: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)',
+        info: 'linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%)',
+        warning: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)'
+    };
+    
+    notification.style.background = colors[type] || colors.info;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS for notifications
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    .error-message {
+        background: rgba(245, 101, 101, 0.1);
+        border: 1px solid #f56565;
+        border-radius: 8px;
+        padding: 1rem;
+        color: #f56565;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .success-message {
+        background: linear-gradient(135deg, rgba(37, 211, 102, 0.1) 0%, rgba(18, 140, 126, 0.1) 100%);
+        border: 1px solid #25D366;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        display: none;
+    }
+    
+    .success-message.show {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .success-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .success-title {
+        font-size: 1.5rem;
+        color: #25D366;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .success-text {
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+    
+    .continue-button {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .continue-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(notificationStyles);
 
 // ================================
 // INITIALIZATION FUNCTIONS
@@ -1108,9 +980,11 @@ function initializeApp() {
     initPricelist();
     initSmoothScrolling();
     initMobileCategoryTabs();
-    renderTestimonialSlider();
     initSlider();
     initContactEvents();
+    
+    // Load data from database
+    loadDataFromDatabase();
     
     window.addEventListener('resize', handleResize);
     
@@ -1120,17 +994,12 @@ function initializeApp() {
         }, 300);
     });
 
-    hideSuccessMessage();
+    console.log('Catalyst Store initialized successfully');
 }
 
+// Initialize the application
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
     initializeApp();
 }
-
-document.addEventListener('error', function(e) {
-    if (e.target.tagName === 'IMG') {
-        console.warn('Gambar tidak dapat dimuat:', e.target.src);
-    }
-}, true);
