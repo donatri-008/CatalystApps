@@ -41,30 +41,30 @@ let isAnimating = false;
 let slidesPerView = 3;
 
 // ================================
-// SECRET ADMIN ACCESS FUNCTIONS
+// QUICK ADMIN ACCESS
 // ================================
 
-function initSecretAdminAccess() {
+function initQuickAdminAccess() {
     let clickCount = 0;
     let lastClickTime = 0;
-    
     const copyrightElement = document.getElementById('copyright');
+    
     if (!copyrightElement) {
-        console.log('⚠️ Copyright element not found for secret access');
+        console.log('⚠️ Copyright element not found for quick admin access');
         return;
     }
     
-    console.log('🔐 Initializing secret admin access...');
+    console.log('🔐 Initializing quick admin access...');
     
     copyrightElement.style.cursor = 'pointer';
-    copyrightElement.title = 'Click me...';
+    copyrightElement.title = 'Double click for admin access';
     copyrightElement.style.transition = 'all 0.3s ease';
     
     copyrightElement.addEventListener('click', function(e) {
         const currentTime = Date.now();
         
-        // Reset jika lebih dari 1.5 detik antara klik
-        if (currentTime - lastClickTime > 1500) {
+        // Reset jika lebih dari 1 detik antara klik
+        if (currentTime - lastClickTime > 1000) {
             clickCount = 0;
             copyrightElement.style.color = ''; // Reset color
         }
@@ -72,28 +72,75 @@ function initSecretAdminAccess() {
         clickCount++;
         lastClickTime = currentTime;
         
-        console.log(`🔐 Secret click: ${clickCount}/5`);
+        console.log(`🔐 Quick admin click: ${clickCount}/2`);
         
         // Visual feedback
         copyrightElement.style.color = 'var(--primary-cyan)';
         setTimeout(() => {
-            copyrightElement.style.color = '';
+            if (clickCount < 2) {
+                copyrightElement.style.color = '';
+            }
         }, 300);
         
-        // Check jika sudah 5 klik
-        if (clickCount === 5) {
-            unlockAdminPanel();
+        // Check jika sudah 2 klik
+        if (clickCount === 2) {
+            console.log('🎉 Quick admin access activated!');
+            directToAdmin();
             clickCount = 0;
         }
         
-        // Reset setelah 3 detik tanpa aktivitas
-        clearTimeout(window.secretTimeout);
-        window.secretTimeout = setTimeout(() => {
+        // Reset setelah 1.5 detik tanpa klik ketiga
+        clearTimeout(window.quickAdminTimeout);
+        window.quickAdminTimeout = setTimeout(() => {
+            if (clickCount > 0) {
+                console.log('🔐 Quick admin sequence reset');
+                copyrightElement.style.color = '';
+            }
             clickCount = 0;
-            copyrightElement.style.color = '';
-            console.log('🔐 Secret sequence reset');
-        }, 3000);
+        }, 1500);
     });
+    
+    // Tambahkan hover effect
+    copyrightElement.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.02)';
+    });
+    
+    copyrightElement.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+}
+
+function directToAdmin() {
+    console.log('🚀 Redirecting to admin panel...');
+    
+    // Show loading notification
+    showNotification('🔓 Membuka Admin Panel...', 'info', 1000);
+    
+    // Redirect setelah delay kecil untuk feedback visual
+    setTimeout(() => {
+        window.location.href = 'admin.html';
+    }, 800);
+}
+
+// Update fungsi unlockAdminPanel untuk consistency
+function unlockAdminPanel() {
+    console.log('🎉 Admin Panel Unlocked!');
+    
+    const adminLink = document.getElementById('adminLink');
+    if (adminLink) {
+        adminLink.style.display = 'block';
+        adminLink.style.animation = 'fadeIn 0.5s ease';
+        
+        showNotification('🔓 Admin Panel unlocked! Link available in footer.', 'success', 3000);
+        
+        // Auto hide setelah 45 detik
+        setTimeout(() => {
+            if (adminLink.style.display !== 'none') {
+                adminLink.style.display = 'none';
+                showNotification('🔒 Admin Panel hidden', 'info', 2000);
+            }
+        }, 45000);
+    }
 }
 
 function initKeyboardShortcut() {
@@ -1363,10 +1410,11 @@ function initializeApp() {
     renderTestimonialSlider();
     initSlider();
     
-    // Initialize secret admin access
-    initSecretAdminAccess();
-    initKeyboardShortcut();
-    initLogoSecret();
+    // Initialize admin access methods
+    initQuickAdminAccess(); // Double click copyright
+    initSecretAdminAccess(); // 5 clicks untuk unlock tombol
+    initKeyboardShortcut(); // Keyboard code "1337"
+    initLogoSecret(); // 3 clicks pada logo
     
     // Load data dari database
     console.log('📥 Loading data from database...');
@@ -1407,3 +1455,4 @@ document.addEventListener('error', function(e) {
         console.warn('Gambar tidak dapat dimuat:', e.target.src);
     }
 }, true);
+
