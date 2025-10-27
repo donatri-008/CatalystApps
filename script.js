@@ -1408,7 +1408,6 @@ function initializeApp() {
     
     // Initialize admin access methods
     initQuickAdminAccess(); // Double click copyright
-    initSecretAdminAccess(); // 5 clicks untuk unlock tombol
     initKeyboardShortcut(); // Keyboard code "1337"
     initLogoSecret(); // 3 clicks pada logo
     
@@ -1451,5 +1450,6 @@ document.addEventListener('error', function(e) {
         console.warn('Gambar tidak dapat dimuat:', e.target.src);
     }
 }, true);
+
 
 
