@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Catalyst Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 80vh;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+        
+        .admin-nav button {
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .admin-nav button:hover {
+            color: var(--primary-cyan);
+        }
+        
+        .admin-nav button.active {
+            color: var(--primary-cyan);
+            border-bottom-color: var(--primary-cyan);
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 968px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .plan-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .plan-item input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-sm {
+            padding: 0.3rem 0.7rem;
+            font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: var(--bg-dark);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .products-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .admin-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            border-color: var(--primary-cyan);
+            transform: translateY(-2px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+        
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="Foto/logo.png" alt="Catalyst Store Logo" class="logo-icon">
+                <span>Catalyst Store - Admin Panel</span>
+            </div>
+            <nav class="desktop-nav">
+                <a href="index.html">Kembali ke Website</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Buka menu navigasi">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <img src="Foto/logo.png" alt="Catalyst Store Logo" class="logo-icon-mobile">
+                <span>Catalyst Store</span>
+            </div>
+            <button class="mobile-nav-close" id="mobileNavClose" aria-label="Tutup menu navigasi">
+                ✕
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="index.html" onclick="closeMobileNav()">
+                <span>🏠</span> Kembali ke Website
+            </a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <p>Kelola produk dan testimoni untuk Catalyst Store</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-products">0</div>
+                <div>Total Produk</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-testimonials">0</div>
+                <div>Total Testimoni</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="streaming-count">0</div>
+                <div>Produk Streaming</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="desain-count">0</div>
+                <div>Produk Desain</div>
+            </div>
+        </div>
+
+        <div class="admin-nav">
+            <button class="active" onclick="showSection('products')">📦 Kelola Produk</button>
+            <button onclick="showSection('testimonials')">📸 Kelola Testimoni</button>
+            <button onclick="showSection('orders')">🛒 Data Pesanan</button>
+        </div>
+
+        <!-- Products Section -->
+        <div id="products-section" class="admin-section active">
+            <div class="form-grid">
+                <div>
+                    <div class="admin-card">
+                        <h3>Tambah Produk Baru</h3>
+                        <form id="product-form">
+                            <div class="form-group">
+                                <label for="product-name">Nama Produk *</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-category">Kategori *</label>
+                                <select id="product-category" required>
+                                    <option value="">Pilih kategori...</option>
+                                    <option value="streaming">🎬 Streaming</option>
+                                    <option value="desain">🎨 Desain & Editing</option>
+                                    <option value="ai">🤖 AI Tools</option>
+                                    <option value="lainnya">📚 Lainnya</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-icon">Icon *</label>
+                                <input type="text" id="product-icon" required placeholder="Contoh: 🎬">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-description">Deskripsi *</label>
+                                <textarea id="product-description" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Paket Harga *</label>
+                                <div id="plans-container">
+                                    <div class="plan-item">
+                                        <input type="text" placeholder="Nama paket" class="plan-name" required>
+                                        <input type="text" placeholder="Harga" class="plan-price" required>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removePlan(this)" disabled>×</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="addPlan()" style="margin-top: 0.5rem;">+ Tambah Paket</button>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-success">💾 Simpan Produk</button>
+                                <button type="button" class="btn btn-danger hidden" onclick="cancelEdit()" id="cancel-edit">❌ Batal Edit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="admin-card">
+                        <h3>Daftar Produk</h3>
+                        <div class="category-tabs">
+                            <button class="category-tab active" onclick="filterProducts('all')">Semua</button>
+                            <button class="category-tab" onclick="filterProducts('streaming')">Streaming</button>
+                            <button class="category-tab" onclick="filterProducts('desain')">Desain</button>
+                            <button class="category-tab" onclick="filterProducts('ai')">AI Tools</button>
+                            <button class="category-tab" onclick="filterProducts('lainnya')">Lainnya</button>
+                        </div>
+                        <div id="products-list" class="products-grid">
+                            <div class="empty-state">
+                                <div class="icon">📦</div>
+                                <p>Memuat produk...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div id="testimonials-section" class="admin-section">
+            <div class="form-grid">
+                <div>
+                    <div class="admin-card">
+                        <h3>Tambah Testimoni Baru</h3>
+                        <form id="testimonial-form">
+                            <div class="form-group">
+                                <label for="testimonial-product">Nama Produk *</label>
+                                <input type="text" id="testimonial-product" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="testimonial-screenshot">URL Screenshot *</label>
+                                <input type="text" id="testimonial-screenshot" required placeholder="Contoh: Foto/testi 1.jpg">
+                                <small style="color: var(--text-muted); margin-top: 0.5rem; display: block;">
+                                    Pastikan file sudah diupload ke folder /Foto/
+                                </small>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">💾 Simpan Testimoni</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="admin-card">
+                        <h3>Daftar Testimoni</h3>
+                        <div id="testimonials-list" class="testimonials-grid">
+                            <div class="empty-state">
+                                <div class="icon">📸</div>
+                                <p>Memuat testimoni...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="orders-section" class="admin-section">
+            <div class="admin-card">
+                <h3>Data Pesanan</h3>
+                <div class="empty-state">
+                    <div class="icon">🛒</div>
+                    <p>Fitur data pesanan akan segera hadir</p>
+                    <p style="font-size: 0.9rem; margin-top: 1rem;">Saat ini semua pesanan langsung dikirim ke WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
