@@ -41,50 +41,60 @@ let isAnimating = false;
 let slidesPerView = 3;
 
 // ================================
-// DATABASE FUNCTIONS
+// DATABASE FUNCTIONS - DIPERBAIKI
 // ================================
 
 async function loadDataFromDatabase() {
     try {
-        console.log('Loading data from database...');
+        console.log('🔄 Loading data from database...');
         
-        // Test connection first
-        console.log('API Base URL:', API_BASE);
+        // Load products
+        const productsResponse = await fetch(`${API_BASE}/products`);
+        console.log('Products response status:', productsResponse.status);
         
-        // Load products dengan timeout
-        const productsPromise = fetch(`${API_BASE}/products`).then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        });
+        if (!productsResponse.ok) {
+            throw new Error(`Failed to fetch products: ${productsResponse.status}`);
+        }
+        
+        const products = await productsResponse.json();
+        console.log('📦 Products loaded:', products.length);
         
         // Load testimonials
-        const testimonialsPromise = fetch(`${API_BASE}/testimonials`).then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        });
+        const testimonialsResponse = await fetch(`${API_BASE}/testimonials`);
+        console.log('Testimonials response status:', testimonialsResponse.status);
         
-        // Wait for both requests dengan timeout
-        const [products, dbTestimonials] = await Promise.all([
-            productsPromise,
-            testimonialsPromise
-        ]);
+        if (!testimonialsResponse.ok) {
+            throw new Error(`Failed to fetch testimonials: ${testimonialsResponse.status}`);
+        }
         
-        // Reset pricelistData
-        pricelistData = { streaming: {}, desain: {}, ai: {}, lainnya: {} };
+        const dbTestimonials = await testimonialsResponse.json();
+        console.log('📸 Testimonials loaded:', dbTestimonials.length);
         
-        // Populate pricelistData from database
+        // Reset dan populate pricelistData dengan format yang benar
+        pricelistData = { 
+            streaming: {}, 
+            desain: {}, 
+            ai: {}, 
+            lainnya: {} 
+        };
+        
+        // Populate pricelistData dari database
         products.forEach(product => {
             if (pricelistData[product.category]) {
                 pricelistData[product.category][product.name] = product.plans;
             }
         });
         
-        // Update appsData
-        const updatedAppsData = { streaming: [], desain: [], ai: [], lainnya: [] };
+        console.log('📊 PricelistData updated:', pricelistData);
+        
+        // Update appsData untuk icon dan deskripsi
+        const updatedAppsData = { 
+            streaming: [], 
+            desain: [], 
+            ai: [], 
+            lainnya: [] 
+        };
+        
         products.forEach(product => {
             if (updatedAppsData[product.category]) {
                 updatedAppsData[product.category].push({
@@ -94,55 +104,48 @@ async function loadDataFromDatabase() {
                 });
             }
         });
+        
         window.appsData = updatedAppsData;
+        console.log('🎨 AppsData updated:', updatedAppsData);
         
-        // Update testimonials array
+        // Update testimonials
         testimonials = dbTestimonials;
-        
-        console.log('Data loaded successfully from database:', {
-            products: products.length,
-            testimonials: testimonials.length
-        });
+        console.log('🖼️ Testimonials updated:', testimonials);
         
         // Update UI components
         updatePricelistUI();
         updateTestimonialsUI();
         updateAppSelection();
         
-        showNotification('Data berhasil dimuat dari database', 'success');
+        console.log('✅ Data berhasil dimuat dari database');
+        showNotification('Data berhasil dimuat', 'success');
         
     } catch (error) {
-        console.error('Error loading data from database:', error);
+        console.error('❌ Error loading data from database:', error);
         
-        // Show detailed error info
-        console.error('Error details:', {
-            message: error.message,
-            API_BASE: API_BASE,
-            timestamp: new Date().toISOString()
-        });
-        
-        // Try to load static data as fallback
+        // Fallback ke data statis
         loadStaticData();
-        showNotification('Menggunakan data offline - Database tidak tersedia', 'warning');
+        showNotification('Menggunakan data offline', 'warning');
         
         // Update UI dengan data statis
         updatePricelistUI();
         updateTestimonialsUI();
         updateAppSelection();
     }
-        
-    } catch (error) {
-        console.error('Error loading data from database:', error);
-        // Fallback to static data or show error message
-        showNotification('Menggunakan data offline', 'info');
-    }
 }
 
 function updatePricelistUI() {
+    console.log('🔄 Updating pricelist UI...');
+    
     const activeTab = document.querySelector('.category-tab.active');
     if (activeTab) {
         const activeCategory = activeTab.getAttribute('data-category');
+        console.log('📑 Active category:', activeCategory);
         renderPricelist(activeCategory);
+    } else {
+        // Jika tidak ada tab active, render streaming sebagai default
+        console.log('ℹ️ No active tab, rendering streaming category');
+        renderPricelist('streaming');
     }
 }
 
@@ -154,7 +157,12 @@ function updateTestimonialsUI() {
 
 function updateAppSelection() {
     const appSelect = document.getElementById('app-selection');
-    if (!appSelect) return;
+    if (!appSelect) {
+        console.log('ℹ️ app-selection element not found');
+        return;
+    }
+    
+    console.log('🔄 Updating app selection dropdown...');
     
     // Clear existing options except the first one
     appSelect.innerHTML = '<option value="">Pilih aplikasi...</option>';
@@ -167,10 +175,10 @@ function updateAppSelection() {
         lainnya: document.createElement('optgroup')
     };
     
-    categories.streaming.label = 'Streaming';
-    categories.desain.label = 'Desain & Kreatif';
-    categories.ai.label = 'AI & Produktivitas';
-    categories.lainnya.label = 'Lainnya';
+    categories.streaming.label = '🎬 Streaming';
+    categories.desain.label = '🎨 Desain & Kreatif';
+    categories.ai.label = '🤖 AI & Produktivitas';
+    categories.lainnya.label = '📚 Lainnya';
     
     // Add products to respective categories
     Object.keys(pricelistData).forEach(category => {
@@ -188,6 +196,104 @@ function updateAppSelection() {
             appSelect.appendChild(optgroup);
         }
     });
+    
+    console.log('✅ App selection updated');
+}
+
+// Fungsi fallback untuk data statis
+function loadStaticData() {
+    console.log('📋 Loading static data as fallback...');
+    
+    // Data statis sebagai fallback
+    pricelistData = {
+        streaming: {
+            "Netflix Premium": [
+                { name: "1P1U - 1 Bulan", price: "Rp 32,000" },
+                { name: "1P1U - 2 Bulan", price: "Rp 61,000" },
+                { name: "1P2U - 1 Bulan", price: "Rp 18,000" }
+            ],
+            "YouTube Premium": [
+                { name: "INDPLAN - 1 Bulan", price: "Rp 15,000" },
+                { name: "INDPLAN - 3 Bulan", price: "Rp 38,000" }
+            ],
+            "Spotify": [
+                { name: "INDPLAN - 1 Bulan", price: "Rp 16,000" },
+                { name: "FAMPLAN - 1 Bulan", price: "Rp 22,000" }
+            ]
+        },
+        desain: {
+            "Canva Pro": [
+                { name: "MEMBER - 1 Bulan", price: "Rp 7,000" },
+                { name: "MEMBER - 3 Bulan", price: "Rp 14,000" }
+            ]
+        },
+        ai: {
+            "ChatGPT Plus": [
+                { name: "SHARING - 1 Bulan", price: "Rp 29,000" },
+                { name: "PRIVATE - 1 Bulan", price: "Rp 100,000" }
+            ]
+        },
+        lainnya: {
+            "QuillBot": [
+                { name: "1 Bulan", price: "Rp 15,000" },
+                { name: "3 Bulan", price: "Rp 20,000" }
+            ]
+        }
+    };
+    
+    testimonials = [
+        {
+            id: 1,
+            productName: "Netflix Premium 1 Bulan",
+            screenshot: "Foto/testi 1.jpg"
+        },
+        {
+            id: 2,
+            productName: "YouTube Premium 3 Bulan", 
+            screenshot: "Foto/testi 2.jpg"
+        }
+    ];
+    
+    window.appsData = {
+        streaming: [
+            {
+                name: "Netflix Premium",
+                icon: "🎬",
+                description: "Akses tak terbatas ke semua film dan serial Netflix tanpa iklan"
+            },
+            {
+                name: "YouTube Premium",
+                icon: "📺",
+                description: "Tonton YouTube tanpa iklan, download video, dan akses YouTube Music"
+            },
+            {
+                name: "Spotify",
+                icon: "🎵",
+                description: "Nikmati musik tanpa iklan, download offline, dan kualitas audio terbaik"
+            }
+        ],
+        desain: [
+            {
+                name: "Canva Pro",
+                icon: "✏️",
+                description: "Desain grafis premium dengan template eksklusif dan aset tanpa batas"
+            }
+        ],
+        ai: [
+            {
+                name: "ChatGPT Plus",
+                icon: "🤖",
+                description: "Akses ChatGPT dengan prioritas, fitur terbaru, dan respons lebih cepat"
+            }
+        ],
+        lainnya: [
+            {
+                name: "QuillBot",
+                icon: "✍️",
+                description: "Alat parafrase dan penulisan AI untuk meningkatkan kualitas teks"
+            }
+        ]
+    };
 }
 
 // ================================
@@ -248,17 +354,61 @@ function closeMobileNav() {
 }
 
 // ================================
-// PRICELIST FUNCTIONS
+// PRICELIST FUNCTIONS - DIPERBAIKI
 // ================================
 
+function initPricelist() {
+    const tabs = document.querySelectorAll('.category-tab');
+    const contents = document.querySelectorAll('.category-content');
+    
+    console.log('📑 Initializing pricelist tabs:', tabs.length);
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            console.log(`🔘 Tab clicked: ${category}`);
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            this.classList.add('active');
+            const targetContent = document.getElementById(category);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            renderPricelist(category);
+        });
+    });
+    
+    // Render initial category
+    const firstTab = document.querySelector('.category-tab.active');
+    if (firstTab) {
+        const firstCategory = firstTab.getAttribute('data-category');
+        console.log(`🎯 Initial category: ${firstCategory}`);
+        renderPricelist(firstCategory);
+    } else {
+        // Default to streaming
+        console.log('ℹ️ No active tab, defaulting to streaming');
+        renderPricelist('streaming');
+    }
+}
+
 function renderPricelist(category) {
+    console.log(`🎯 Rendering pricelist for category: ${category}`);
+    
     const container = document.querySelector(`#${category} .pricelist-grid`);
-    if (!container) return;
+    if (!container) {
+        console.error(`❌ Container not found for category: ${category}`);
+        return;
+    }
     
     container.innerHTML = '';
 
     const apps = pricelistData[category] || {};
     const appNames = Object.keys(apps);
+    
+    console.log(`📱 Apps found in ${category}:`, appNames);
     
     if (appNames.length === 0) {
         container.innerHTML = `
@@ -266,6 +416,7 @@ function renderPricelist(category) {
                 <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
                     <p>Tidak ada produk untuk kategori ini</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Silakan tambah produk di admin panel</p>
                 </div>
             </div>
         `;
@@ -273,9 +424,18 @@ function renderPricelist(category) {
     }
     
     appNames.forEach((appName, index) => {
+        const appPlans = apps[appName];
+        console.log(`📋 Rendering ${appName} with ${appPlans.length} plans`);
+        
         const card = document.createElement('div');
         card.className = 'pricelist-card';
         card.style.animationDelay = `${index * 0.1}s`;
+        
+        // Cari data app untuk icon dan deskripsi
+        const appData = window.appsData?.[category]?.find(app => app.name === appName) || {
+            icon: "📱",
+            description: "Layanan premium terbaik"
+        };
         
         const hasBestValue = appName === "YouTube Premium" || appName === "Netflix Premium";
         if (hasBestValue) {
@@ -285,7 +445,7 @@ function renderPricelist(category) {
         let itemsHTML = '';
         let itemCount = 0;
         
-        apps[appName].forEach((item, itemIndex) => {
+        appPlans.forEach((item, itemIndex) => {
             const isNew = itemIndex === 0;
             const itemClass = isNew ? 'pricelist-item new-item' : 'pricelist-item';
             
@@ -302,7 +462,7 @@ function renderPricelist(category) {
             ${hasBestValue ? '<div class="popular-badge">🔥 POPULAR</div>' : ''}
             
             <div class="app-header">
-                <div class="app-icon">📱</div>
+                <div class="app-icon">${appData.icon}</div>
                 <h3 class="app-name">${appName}</h3>
             </div>
             
@@ -328,35 +488,8 @@ function renderPricelist(category) {
         
         container.appendChild(card);
     });
-}
-
-function initPricelist() {
-    const tabs = document.querySelectorAll('.category-tab');
-    const contents = document.querySelectorAll('.category-content');
     
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const category = this.getAttribute('data-category');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
-            
-            this.classList.add('active');
-            const targetContent = document.getElementById(category);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-            
-            renderPricelist(category);
-        });
-    });
-    
-    // Render initial category
-    const firstTab = document.querySelector('.category-tab.active');
-    if (firstTab) {
-        const firstCategory = firstTab.getAttribute('data-category');
-        renderPricelist(firstCategory);
-    }
+    console.log(`✅ Successfully rendered ${appNames.length} products in ${category}`);
 }
 
 // ================================
@@ -387,6 +520,7 @@ function renderTestimonialSlider() {
                 <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
                     <p>Belum ada testimoni</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Tambahkan screenshot testimoni di admin panel</p>
                 </div>
             </div>
         `;
@@ -909,7 +1043,7 @@ notificationStyles.textContent = `
 document.head.appendChild(notificationStyles);
 
 // ================================
-// INITIALIZATION FUNCTIONS
+// UTILITY FUNCTIONS
 // ================================
 
 function initPhoneFormatting() {
@@ -1023,180 +1157,53 @@ function initMobileNavActiveStates() {
     });
 }
 
-// Fungsi untuk update appsData dari database
-async function updateAppsDataFromDatabase() {
-    try {
-        const productsResponse = await fetch(`${API_BASE}/products`);
-        if (!productsResponse.ok) return;
-        
-        const products = await productsResponse.json();
-        
-        // Reset appsData
-        const updatedAppsData = { streaming: [], desain: [], ai: [], lainnya: [] };
-        
-        // Populate appsData from database
-        products.forEach(product => {
-            if (updatedAppsData[product.category]) {
-                updatedAppsData[product.category].push({
-                    name: product.name,
-                    icon: product.icon,
-                    description: product.description
-                });
-            }
-        });
-        
-        // Update global appsData
-        window.appsData = updatedAppsData;
-        
-    } catch (error) {
-        console.error('Error updating appsData:', error);
-    }
-}
+// ================================
+// DEBUG FUNCTIONS
+// ================================
 
-// Update fungsi loadDataFromDatabase
-async function loadDataFromDatabase() {
-    try {
-        console.log('Loading data from database...');
-        
-        // Load products
-        const productsResponse = await fetch(`${API_BASE}/products`);
-        if (!productsResponse.ok) throw new Error('Failed to fetch products');
-        const products = await productsResponse.json();
-        
-        // Reset pricelistData
-        pricelistData = { streaming: {}, desain: {}, ai: {}, lainnya: {} };
-        
-        // Populate pricelistData from database
-        products.forEach(product => {
-            if (pricelistData[product.category]) {
-                pricelistData[product.category][product.name] = product.plans;
-            }
-        });
-        
-        // Update appsData
-        await updateAppsDataFromDatabase();
-        
-        // Load testimonials
-        const testimonialsResponse = await fetch(`${API_BASE}/testimonials`);
-        if (!testimonialsResponse.ok) throw new Error('Failed to fetch testimonials');
-        const dbTestimonials = await testimonialsResponse.json();
-        
-        // Update testimonials array
-        testimonials = dbTestimonials;
-        
-        console.log('Data loaded successfully:', {
-            products: products.length,
-            testimonials: testimonials.length
-        });
-        
-        // Update UI components
-        updatePricelistUI();
-        updateTestimonialsUI();
-        updateAppSelection();
-        
-    } catch (error) {
-        console.error('Error loading data from database:', error);
-        // Fallback to static data
-        loadStaticData();
-        showNotification('Menggunakan data offline', 'info');
-    }
-}
-
-// Fungsi fallback untuk data statis
-function loadStaticData() {
-    // Data statis sebagai fallback
-    pricelistData = {
-        streaming: {
-            "Netflix Premium": [
-                { name: "1P1U - 1 Bulan", price: "Rp 32,000" },
-                { name: "1P1U - 2 Bulan", price: "Rp 61,000" }
-            ],
-            "YouTube Premium": [
-                { name: "INDPLAN - 1 Bulan", price: "Rp 15,000" },
-                { name: "INDPLAN - 3 Bulan", price: "Rp 38,000" }
-            ]
-        },
-        desain: {
-            "Canva Pro": [
-                { name: "MEMBER - 1 Bulan", price: "Rp 7,000" },
-                { name: "MEMBER - 3 Bulan", price: "Rp 14,000" }
-            ]
-        },
-        ai: {
-            "ChatGPT Plus": [
-                { name: "SHARING - 1 Bulan", price: "Rp 29,000" },
-                { name: "PRIVATE - 1 Bulan", price: "Rp 100,000" }
-            ]
-        },
-        lainnya: {
-            "QuillBot": [
-                { name: "1 Bulan", price: "Rp 15,000" },
-                { name: "3 Bulan", price: "Rp 20,000" }
-            ]
-        }
-    };
+function debugData() {
+    console.log('=== DEBUG DATA ===');
+    console.log('pricelistData:', pricelistData);
+    console.log('appsData:', window.appsData);
+    console.log('testimonials:', testimonials);
     
-    testimonials = [
-        {
-            id: 1,
-            productName: "Netflix Premium 1 Bulan",
-            screenshot: "Foto/testi 1.jpg"
-        },
-        {
-            id: 2,
-            productName: "YouTube Premium 3 Bulan", 
-            screenshot: "Foto/testi 2.jpg"
-        }
+    // Check jika containers ada
+    const containers = [
+        '#streaming .pricelist-grid',
+        '#desain .pricelist-grid', 
+        '#ai .pricelist-grid',
+        '#lainnya .pricelist-grid'
     ];
     
-    window.appsData = {
-        streaming: [
-            {
-                name: "Netflix Premium",
-                icon: "🎬",
-                description: "Akses tak terbatas ke semua film dan serial Netflix tanpa iklan"
-            },
-            {
-                name: "YouTube Premium",
-                icon: "📺",
-                description: "Tonton YouTube tanpa iklan, download video, dan akses YouTube Music"
-            }
-        ],
-        desain: [
-            {
-                name: "Canva Pro",
-                icon: "✏️",
-                description: "Desain grafis premium dengan template eksklusif dan aset tanpa batas"
-            }
-        ],
-        ai: [
-            {
-                name: "ChatGPT Plus",
-                icon: "🤖",
-                description: "Akses ChatGPT dengan prioritas, fitur terbaru, dan respons lebih cepat"
-            }
-        ],
-        lainnya: [
-            {
-                name: "QuillBot",
-                icon: "✍️",
-                description: "Alat parafrase dan penulisan AI untuk meningkatkan kualitas teks"
-            }
-        ]
-    };
+    containers.forEach(selector => {
+        const container = document.querySelector(selector);
+        console.log(`Container ${selector}:`, container ? 'EXISTS' : 'NOT FOUND');
+    });
 }
 
+// ================================
+// INITIALIZATION - DIPERBAIKI
+// ================================
+
 function initializeApp() {
+    console.log('🚀 Initializing Catalyst Store...');
+    
     initMobileNavigation();
     initScrollSpy();
     initMobileNavActiveStates();
-    initPricelist();
     initSmoothScrolling();
     initMobileCategoryTabs();
-    initSlider();
     initContactEvents();
     
-    // Load data from database
+    // Initialize pricelist tabs
+    initPricelist();
+    
+    // Initialize slider
+    renderTestimonialSlider();
+    initSlider();
+    
+    // Load data dari database
+    console.log('📥 Loading data from database...');
     loadDataFromDatabase();
     
     window.addEventListener('resize', handleResize);
@@ -1207,7 +1214,18 @@ function initializeApp() {
         }, 300);
     });
 
-    console.log('Catalyst Store initialized successfully');
+    // Force render setelah beberapa detik (fallback)
+    setTimeout(() => {
+        console.log('🔄 Force rendering UI...');
+        updatePricelistUI();
+        updateTestimonialsUI();
+        updateAppSelection();
+        
+        // Debug data
+        debugData();
+    }, 2000);
+
+    console.log('✅ Catalyst Store initialized successfully');
 }
 
 // Initialize the application
@@ -1217,5 +1235,9 @@ if (document.readyState === 'loading') {
     initializeApp();
 }
 
-
-
+// Error handling untuk gambar
+document.addEventListener('error', function(e) {
+    if (e.target.tagName === 'IMG') {
+        console.warn('Gambar tidak dapat dimuat:', e.target.src);
+    }
+}, true);
