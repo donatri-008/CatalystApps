@@ -1,5 +1,5 @@
 // Konfigurasi
-const API_BASE = window.location.origin + '/.netlify/functions/database';
+const API_BASE = '/.netlify/functions/database';
 const WHATSAPP_CONFIG = {
     phoneNumber: '6287767796053',
     autoSend: true,
@@ -41,7 +41,162 @@ let isAnimating = false;
 let slidesPerView = 3;
 
 // ================================
-// DATABASE FUNCTIONS - DIPERBAIKI
+// SECRET ADMIN ACCESS FUNCTIONS
+// ================================
+
+function initSecretAdminAccess() {
+    let clickCount = 0;
+    let lastClickTime = 0;
+    
+    const copyrightElement = document.getElementById('copyright');
+    if (!copyrightElement) {
+        console.log('⚠️ Copyright element not found for secret access');
+        return;
+    }
+    
+    console.log('🔐 Initializing secret admin access...');
+    
+    copyrightElement.style.cursor = 'pointer';
+    copyrightElement.title = 'Click me...';
+    copyrightElement.style.transition = 'all 0.3s ease';
+    
+    copyrightElement.addEventListener('click', function(e) {
+        const currentTime = Date.now();
+        
+        // Reset jika lebih dari 1.5 detik antara klik
+        if (currentTime - lastClickTime > 1500) {
+            clickCount = 0;
+            copyrightElement.style.color = ''; // Reset color
+        }
+        
+        clickCount++;
+        lastClickTime = currentTime;
+        
+        console.log(`🔐 Secret click: ${clickCount}/5`);
+        
+        // Visual feedback
+        copyrightElement.style.color = 'var(--primary-cyan)';
+        setTimeout(() => {
+            copyrightElement.style.color = '';
+        }, 300);
+        
+        // Check jika sudah 5 klik
+        if (clickCount === 5) {
+            unlockAdminPanel();
+            clickCount = 0;
+        }
+        
+        // Reset setelah 3 detik tanpa aktivitas
+        clearTimeout(window.secretTimeout);
+        window.secretTimeout = setTimeout(() => {
+            clickCount = 0;
+            copyrightElement.style.color = '';
+            console.log('🔐 Secret sequence reset');
+        }, 3000);
+    });
+}
+
+function initKeyboardShortcut() {
+    let keySequence = '';
+    const secretCode = '1337'; // Kode rahasia
+    
+    document.addEventListener('keydown', function(e) {
+        // Hanya terima angka
+        if (e.key >= '0' && e.key <= '9') {
+            keySequence += e.key;
+            
+            // Reset jika sequence terlalu panjang
+            if (keySequence.length > secretCode.length) {
+                keySequence = keySequence.slice(-secretCode.length);
+            }
+            
+            console.log(`⌨️ Key sequence: ${keySequence}`);
+            
+            // Check jika code match
+            if (keySequence === secretCode) {
+                console.log('🎉 Keyboard secret activated!');
+                unlockAdminPanel();
+                keySequence = ''; // Reset
+            }
+        }
+        
+        // Reset pada tombol Escape
+        if (e.key === 'Escape') {
+            keySequence = '';
+            console.log('⌨️ Key sequence reset');
+        }
+    });
+}
+
+function initLogoSecret() {
+    const logo = document.querySelector('.logo');
+    if (!logo) {
+        console.log('⚠️ Logo element not found for secret access');
+        return;
+    }
+    
+    let clickCount = 0;
+    let lastClickTime = 0;
+    
+    logo.style.cursor = 'pointer';
+    logo.style.transition = 'transform 0.2s ease';
+    
+    logo.addEventListener('click', function(e) {
+        const currentTime = Date.now();
+        
+        // Reset jika lebih dari 1 detik
+        if (currentTime - lastClickTime > 1000) {
+            clickCount = 0;
+        }
+        
+        clickCount++;
+        lastClickTime = currentTime;
+        
+        console.log(`🖱️ Logo click: ${clickCount}/3`);
+        
+        // Animation feedback
+        logo.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            logo.style.transform = '';
+        }, 200);
+        
+        if (clickCount === 3) {
+            unlockAdminPanel();
+            clickCount = 0;
+        }
+    });
+}
+
+function unlockAdminPanel() {
+    console.log('🎉 Admin Panel Unlocked!');
+    
+    const adminLink = document.getElementById('adminLink');
+    if (adminLink) {
+        adminLink.style.display = 'block';
+        adminLink.style.animation = 'fadeIn 0.5s ease';
+        
+        showNotification('🔓 Admin Panel unlocked! Link available in footer.', 'success', 3000);
+        
+        // Auto hide setelah 45 detik
+        setTimeout(() => {
+            if (adminLink.style.display !== 'none') {
+                adminLink.style.display = 'none';
+                showNotification('🔒 Admin Panel hidden', 'info', 2000);
+            }
+        }, 45000);
+    }
+    
+    // Juga unlock di navigation jika ada
+    const adminNavLinks = document.querySelectorAll('a[href="admin.html"]');
+    adminNavLinks.forEach(link => {
+        if (link.parentElement.style.display === 'none') {
+            link.parentElement.style.display = 'block';
+        }
+    });
+}
+
+// ================================
+// DATABASE FUNCTIONS
 // ================================
 
 async function loadDataFromDatabase() {
@@ -354,7 +509,7 @@ function closeMobileNav() {
 }
 
 // ================================
-// PRICELIST FUNCTIONS - DIPERBAIKI
+// PRICELIST FUNCTIONS
 // ================================
 
 function initPricelist() {
@@ -916,7 +1071,7 @@ function quickOrder(appName) {
 // NOTIFICATION SYSTEM
 // ================================
 
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', duration = 3000) {
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
@@ -929,6 +1084,7 @@ function showNotification(message, type = 'info') {
         max-width: 300px;
         animation: slideIn 0.3s ease;
         font-weight: 500;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     `;
     
     const colors = {
@@ -950,7 +1106,7 @@ function showNotification(message, type = 'info') {
                 document.body.removeChild(notification);
             }
         }, 300);
-    }, 3000);
+    }, duration);
 }
 
 // Add CSS for notifications
@@ -964,6 +1120,11 @@ notificationStyles.textContent = `
     @keyframes slideOut {
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
     .error-message {
@@ -1182,7 +1343,7 @@ function debugData() {
 }
 
 // ================================
-// INITIALIZATION - DIPERBAIKI
+// INITIALIZATION
 // ================================
 
 function initializeApp() {
@@ -1201,6 +1362,11 @@ function initializeApp() {
     // Initialize slider
     renderTestimonialSlider();
     initSlider();
+    
+    // Initialize secret admin access
+    initSecretAdminAccess();
+    initKeyboardShortcut();
+    initLogoSecret();
     
     // Load data dari database
     console.log('📥 Loading data from database...');
