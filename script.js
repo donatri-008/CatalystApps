@@ -56,10 +56,6 @@ function initQuickAdminAccess() {
     
     console.log('🔐 Initializing quick admin access...');
     
-    copyrightElement.style.cursor = 'pointer';
-    copyrightElement.title = 'Double click for admin access';
-    copyrightElement.style.transition = 'all 0.3s ease';
-    
     copyrightElement.addEventListener('click', function(e) {
         const currentTime = Date.now();
         
@@ -1455,4 +1451,5 @@ document.addEventListener('error', function(e) {
         console.warn('Gambar tidak dapat dimuat:', e.target.src);
     }
 }, true);
+
 
