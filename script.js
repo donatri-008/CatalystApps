@@ -48,10 +48,30 @@ async function loadDataFromDatabase() {
     try {
         console.log('Loading data from database...');
         
-        // Load products
-        const productsResponse = await fetch(`${API_BASE}/products`);
-        if (!productsResponse.ok) throw new Error('Failed to fetch products');
-        const products = await productsResponse.json();
+        // Test connection first
+        console.log('API Base URL:', API_BASE);
+        
+        // Load products dengan timeout
+        const productsPromise = fetch(`${API_BASE}/products`).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        });
+        
+        // Load testimonials
+        const testimonialsPromise = fetch(`${API_BASE}/testimonials`).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        });
+        
+        // Wait for both requests dengan timeout
+        const [products, dbTestimonials] = await Promise.all([
+            productsPromise,
+            testimonialsPromise
+        ]);
         
         // Reset pricelistData
         pricelistData = { streaming: {}, desain: {}, ai: {}, lainnya: {} };
@@ -63,15 +83,23 @@ async function loadDataFromDatabase() {
             }
         });
         
-        // Load testimonials
-        const testimonialsResponse = await fetch(`${API_BASE}/testimonials`);
-        if (!testimonialsResponse.ok) throw new Error('Failed to fetch testimonials');
-        const dbTestimonials = await testimonialsResponse.json();
+        // Update appsData
+        const updatedAppsData = { streaming: [], desain: [], ai: [], lainnya: [] };
+        products.forEach(product => {
+            if (updatedAppsData[product.category]) {
+                updatedAppsData[product.category].push({
+                    name: product.name,
+                    icon: product.icon,
+                    description: product.description
+                });
+            }
+        });
+        window.appsData = updatedAppsData;
         
         // Update testimonials array
         testimonials = dbTestimonials;
         
-        console.log('Data loaded successfully:', {
+        console.log('Data loaded successfully from database:', {
             products: products.length,
             testimonials: testimonials.length
         });
@@ -80,6 +108,28 @@ async function loadDataFromDatabase() {
         updatePricelistUI();
         updateTestimonialsUI();
         updateAppSelection();
+        
+        showNotification('Data berhasil dimuat dari database', 'success');
+        
+    } catch (error) {
+        console.error('Error loading data from database:', error);
+        
+        // Show detailed error info
+        console.error('Error details:', {
+            message: error.message,
+            API_BASE: API_BASE,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Try to load static data as fallback
+        loadStaticData();
+        showNotification('Menggunakan data offline - Database tidak tersedia', 'warning');
+        
+        // Update UI dengan data statis
+        updatePricelistUI();
+        updateTestimonialsUI();
+        updateAppSelection();
+    }
         
     } catch (error) {
         console.error('Error loading data from database:', error);
@@ -1166,5 +1216,6 @@ if (document.readyState === 'loading') {
 } else {
     initializeApp();
 }
+
 
 
