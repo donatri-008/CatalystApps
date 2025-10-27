@@ -393,7 +393,7 @@ nav a:hover {
     border-radius: 16px;
     padding: 1.5rem;
     border: 1px solid var(--border-color);
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    transition: transform 0.5s, box-shadow 0.3s, border-color 0.3s;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -468,7 +468,7 @@ nav a:hover {
     align-items: center;
     padding: 0.8rem 0;
     border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 .pricelist-item:hover {
@@ -1035,6 +1035,23 @@ footer {
 
 footer p {
     margin: 0;
+}
+
+#copyright {
+    cursor: default !important;
+    transform: none !important;
+    transition: none !important;
+    position: static !important;
+}
+
+#copyright:hover {
+    color: var(--text-muted) !important;
+    transform: none !important;
+}
+
+#copyright::before,
+#copyright::after {
+    display: none !important;
 }
 
 /* Empty State */
@@ -1651,4 +1668,5 @@ select:focus {
     outline: 2px solid var(--primary-cyan);
     outline-offset: 2px;
 }
+
 
