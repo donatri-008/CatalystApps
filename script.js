@@ -973,6 +973,169 @@ function initMobileNavActiveStates() {
     });
 }
 
+// Fungsi untuk update appsData dari database
+async function updateAppsDataFromDatabase() {
+    try {
+        const productsResponse = await fetch(`${API_BASE}/products`);
+        if (!productsResponse.ok) return;
+        
+        const products = await productsResponse.json();
+        
+        // Reset appsData
+        const updatedAppsData = { streaming: [], desain: [], ai: [], lainnya: [] };
+        
+        // Populate appsData from database
+        products.forEach(product => {
+            if (updatedAppsData[product.category]) {
+                updatedAppsData[product.category].push({
+                    name: product.name,
+                    icon: product.icon,
+                    description: product.description
+                });
+            }
+        });
+        
+        // Update global appsData
+        window.appsData = updatedAppsData;
+        
+    } catch (error) {
+        console.error('Error updating appsData:', error);
+    }
+}
+
+// Update fungsi loadDataFromDatabase
+async function loadDataFromDatabase() {
+    try {
+        console.log('Loading data from database...');
+        
+        // Load products
+        const productsResponse = await fetch(`${API_BASE}/products`);
+        if (!productsResponse.ok) throw new Error('Failed to fetch products');
+        const products = await productsResponse.json();
+        
+        // Reset pricelistData
+        pricelistData = { streaming: {}, desain: {}, ai: {}, lainnya: {} };
+        
+        // Populate pricelistData from database
+        products.forEach(product => {
+            if (pricelistData[product.category]) {
+                pricelistData[product.category][product.name] = product.plans;
+            }
+        });
+        
+        // Update appsData
+        await updateAppsDataFromDatabase();
+        
+        // Load testimonials
+        const testimonialsResponse = await fetch(`${API_BASE}/testimonials`);
+        if (!testimonialsResponse.ok) throw new Error('Failed to fetch testimonials');
+        const dbTestimonials = await testimonialsResponse.json();
+        
+        // Update testimonials array
+        testimonials = dbTestimonials;
+        
+        console.log('Data loaded successfully:', {
+            products: products.length,
+            testimonials: testimonials.length
+        });
+        
+        // Update UI components
+        updatePricelistUI();
+        updateTestimonialsUI();
+        updateAppSelection();
+        
+    } catch (error) {
+        console.error('Error loading data from database:', error);
+        // Fallback to static data
+        loadStaticData();
+        showNotification('Menggunakan data offline', 'info');
+    }
+}
+
+// Fungsi fallback untuk data statis
+function loadStaticData() {
+    // Data statis sebagai fallback
+    pricelistData = {
+        streaming: {
+            "Netflix Premium": [
+                { name: "1P1U - 1 Bulan", price: "Rp 32,000" },
+                { name: "1P1U - 2 Bulan", price: "Rp 61,000" }
+            ],
+            "YouTube Premium": [
+                { name: "INDPLAN - 1 Bulan", price: "Rp 15,000" },
+                { name: "INDPLAN - 3 Bulan", price: "Rp 38,000" }
+            ]
+        },
+        desain: {
+            "Canva Pro": [
+                { name: "MEMBER - 1 Bulan", price: "Rp 7,000" },
+                { name: "MEMBER - 3 Bulan", price: "Rp 14,000" }
+            ]
+        },
+        ai: {
+            "ChatGPT Plus": [
+                { name: "SHARING - 1 Bulan", price: "Rp 29,000" },
+                { name: "PRIVATE - 1 Bulan", price: "Rp 100,000" }
+            ]
+        },
+        lainnya: {
+            "QuillBot": [
+                { name: "1 Bulan", price: "Rp 15,000" },
+                { name: "3 Bulan", price: "Rp 20,000" }
+            ]
+        }
+    };
+    
+    testimonials = [
+        {
+            id: 1,
+            productName: "Netflix Premium 1 Bulan",
+            screenshot: "Foto/testi 1.jpg"
+        },
+        {
+            id: 2,
+            productName: "YouTube Premium 3 Bulan", 
+            screenshot: "Foto/testi 2.jpg"
+        }
+    ];
+    
+    window.appsData = {
+        streaming: [
+            {
+                name: "Netflix Premium",
+                icon: "🎬",
+                description: "Akses tak terbatas ke semua film dan serial Netflix tanpa iklan"
+            },
+            {
+                name: "YouTube Premium",
+                icon: "📺",
+                description: "Tonton YouTube tanpa iklan, download video, dan akses YouTube Music"
+            }
+        ],
+        desain: [
+            {
+                name: "Canva Pro",
+                icon: "✏️",
+                description: "Desain grafis premium dengan template eksklusif dan aset tanpa batas"
+            }
+        ],
+        ai: [
+            {
+                name: "ChatGPT Plus",
+                icon: "🤖",
+                description: "Akses ChatGPT dengan prioritas, fitur terbaru, dan respons lebih cepat"
+            }
+        ],
+        lainnya: [
+            {
+                name: "QuillBot",
+                icon: "✍️",
+                description: "Alat parafrase dan penulisan AI untuk meningkatkan kualitas teks"
+            }
+        ]
+    };
+}
+
 function initializeApp() {
     initMobileNavigation();
     initScrollSpy();
@@ -1003,3 +1166,4 @@ if (document.readyState === 'loading') {
 } else {
     initializeApp();
 }
+
