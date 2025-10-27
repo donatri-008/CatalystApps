@@ -1,5 +1,5 @@
 // Konfigurasi
-const API_BASE = '/.netlify/functions/database';
+const API_BASE = window.location.origin + '/.netlify/functions/database';
 const WHATSAPP_CONFIG = {
     phoneNumber: '6287767796053',
     autoSend: true,
@@ -1166,4 +1166,5 @@ if (document.readyState === 'loading') {
 } else {
     initializeApp();
 }
+
 
