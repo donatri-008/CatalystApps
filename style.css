@@ -1176,27 +1176,68 @@ nav a:hover {
     box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
 }
 
-/* Footer */
+/* Footer Styles dengan Tombol Rahasia */
 footer {
-    background: rgba(5, 13, 26, 0.8);
+    background: rgba(5, 13, 26, 0.9);
     color: var(--text-muted);
     text-align: center;
     padding: 1.5rem;
     margin-top: 2rem;
     border-top: 1px solid var(--border-color);
+    position: relative;
 }
 
-/* Admin Link in Navigation */
-.admin-link {
-    background: linear-gradient(135deg, var(--primary-gold) 0%, #f59e0b 100%);
-    color: var(--bg-dark) !important;
-    border-radius: 8px;
-    font-weight: 600;
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
 }
 
-.admin-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+.footer-secret {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 1rem;
+}
+
+.secret-admin-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.secret-admin-btn:hover {
+    opacity: 1;
+    border-color: var(--primary-cyan);
+    background: rgba(0, 212, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.secret-icon {
+    transition: transform 0.3s ease;
+}
+
+.secret-admin-btn:hover .secret-icon {
+    transform: rotate(90deg);
+}
+
+/* Hidden admin link untuk akses cepat */
+.hidden-admin-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Success Message Styles */
@@ -1602,7 +1643,20 @@ footer {
         font-size: 0.9rem;
     }
 
-        .admin-container {
+    .footer-secret {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        margin-top: 0.5rem;
+    }
+    
+    .secret-admin-btn {
+        opacity: 0.5;
+        width: 40px;
+        height: 40px;
+    }
+
+    .admin-container {
         padding: 1rem;
     }
     
@@ -1881,3 +1935,4 @@ select:focus {
     animation: spin 1s linear infinite;
 
 }
+
