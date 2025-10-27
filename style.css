@@ -1035,23 +1035,7 @@ footer {
 
 footer p {
     margin: 0;
-}
-
-#copyright {
-    cursor: default !important;
-    transform: none !important;
-    transition: none !important;
-    position: static !important;
-}
-
-#copyright:hover {
-    color: var(--text-muted) !important;
-    transform: none !important;
-}
-
-#copyright::before,
-#copyright::after {
-    display: none !important;
+    transition: all 0.3s ease;
 }
 
 /* Empty State */
@@ -1668,8 +1652,3 @@ select:focus {
     outline: 2px solid var(--primary-cyan);
     outline-offset: 2px;
 }
-
-
-
-
-
